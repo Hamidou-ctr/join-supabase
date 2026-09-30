@@ -1,11 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Join Super Base</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https://stmakiuddrhaufpqwffv.supabase.co; connect-src 'self' https://stmakiuddrhaufpqwffv.supabase.co wss://stmakiuddrhaufpqwffv.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <title>Log in - Join</title>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
 </head>
 <body>
-    
+  <main class="auth-page">
+    <section class="auth-card" aria-labelledby="login-heading">
+      <h1 id="login-heading">Log in</h1>
+
+      <p class="form-message" data-role="message" role="status" aria-live="polite" hidden></p>
+
+      <form id="login-form" novalidate>
+        <div class="form-field">
+          <label for="login-email">Email</label>
+          <input id="login-email" name="email" type="email" autocomplete="email" required maxlength="254">
+        </div>
+        <div class="form-field">
+          <label for="login-password">Password</label>
+          <input id="login-password" name="password" type="password" autocomplete="current-password" required maxlength="72">
+        </div>
+        <button type="submit" class="button button--primary">Log in</button>
+      </form>
+
+      <button type="button" id="guest-login" class="button button--secondary">Log in as Guest</button>
+
+      <p class="auth-switch">Don't have an account? <a href="signup.html">Sign up</a></p>
+    </section>
+  </main>
+  <script type="module" src="js/login-page.js"></script>
 </body>
 </html>

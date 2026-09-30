@@ -1,0 +1,50 @@
+.auth-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--space-3);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 26rem;
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  padding: var(--space-5) var(--space-4);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.08),
+    0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.auth-switch {
+  margin-top: var(--space-4);
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.app-page {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: var(--space-4);
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.app-header .button {
+  width: auto;
+}
+
+.greeting {
+  font-size: var(--font-size-lg);
+}
+
+.app-note {
+  color: var(--color-text-muted);
+}
