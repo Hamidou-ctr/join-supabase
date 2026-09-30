@@ -8,6 +8,9 @@ import {
   PASSWORD_MIN_LENGTH,
 } from './utils/validation.js';
 import { showMessage, clearMessage, setFormDisabled } from './ui/formFeedback.js';
+import { initPasswordToggles } from './ui/passwordToggle.js';
+
+initPasswordToggles();
 
 const form = document.getElementById('signup-form');
 const messageEl = document.querySelector('[data-role="message"]');

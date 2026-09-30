@@ -23,6 +23,57 @@
   opacity: 0.6;
 }
 
+.password-field {
+  position: relative;
+}
+
+.form-field .password-field input {
+  width: 100%;
+  padding-right: 2.75rem;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 0.375rem;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.password-toggle:hover {
+  color: var(--color-text);
+}
+
+.password-toggle svg {
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+}
+
+/* Only one icon is shown at a time; aria-pressed (set by js/ui/passwordToggle.js) is the
+   source of truth for which one, so screen readers and the visuals never disagree. */
+.password-toggle .icon-eye-off {
+  display: none;
+}
+
+.password-toggle[aria-pressed='true'] .icon-eye {
+  display: none;
+}
+
+.password-toggle[aria-pressed='true'] .icon-eye-off {
+  display: block;
+}
+
 .button {
   display: inline-block;
   width: 100%;
