@@ -20,6 +20,10 @@ const NAV_ITEMS = [
   { id: "contacts", label: "Contacts", href: null, icon: "icon-contacts.svg" },
 ];
 
+const EXTERNAL_NAV_ITEMS = [
+  { id: "login", label: "Log In", href: "index.html", icon: "icon-login.svg" },
+];
+
 function buildLogo(file, className) {
   const link = el("a", {
     className,
@@ -31,9 +35,9 @@ function buildLogo(file, className) {
   return link;
 }
 
-function buildNav(active) {
+function buildNav(items, active) {
   const list = el("ul", { className: "nav-list" });
-  for (const item of NAV_ITEMS) {
+  for (const item of items) {
     const content = [
       icon(item.icon, "nav-icon"),
       el("span", { text: item.label }),
@@ -65,14 +69,23 @@ function buildNav(active) {
   );
 }
 
-function buildLegalLinks(className) {
-  return el("div", { className }, [
-    el("a", { text: "Privacy Policy", attrs: { href: "privacy-policy.html" } }),
-    el("a", { text: "Legal notice", attrs: { href: "legal-notice.html" } }),
-  ]);
+function buildLegalLinks(className, active) {
+  const links = [
+    { id: "privacy", label: "Privacy Policy", href: "privacy-policy.html" },
+    { id: "legal", label: "Legal notice", href: "legal-notice.html" },
+  ];
+  return el(
+    "div",
+    { className },
+    links.map((link) => {
+      const node = el("a", { text: link.label, attrs: { href: link.href } });
+      if (link.id === active) node.setAttribute("aria-current", "page");
+      return node;
+    }),
+  );
 }
 
-function buildUserMenu(initials, onLogout) {
+function buildUserMenu(initials, onLogout, active) {
   const toggle = el("button", {
     className: "avatar",
     text: initials,
@@ -89,7 +102,7 @@ function buildUserMenu(initials, onLogout) {
     attrs: { type: "button" },
   });
   const menu = el("div", { className: "user-menu", attrs: { hidden: "" } }, [
-    buildLegalLinks("user-menu-links"),
+    buildLegalLinks("user-menu-links", active),
     logout,
   ]);
 
@@ -135,30 +148,42 @@ function buildHelpLink() {
   return link;
 }
 
-// Wraps the page's <main> (inside #shell) with sidebar + top bar, so every app page shares one shell.
-export function mountShell({ active, initials, onLogout }) {
+// Wraps the page's <main> (inside #shell) with sidebar + top bar, so every page shares one shell.
+// external = not signed in (legal pages): only "Log In" + legal links, no avatar/help.
+export function mountShell({ active, initials, onLogout, external = false }) {
   const shell = document.getElementById("shell");
   const main = shell.querySelector("main");
 
-  const sidebar = el("aside", { className: "sidebar" }, [
-    buildLogo("img/logo-white.svg", "sidebar-logo"),
-    buildNav(active),
-    buildLegalLinks("sidebar-legal"),
-  ]);
-  const topbar = el("header", { className: "topbar" }, [
+  const sidebar = el(
+    "aside",
+    { className: external ? "sidebar sidebar--external" : "sidebar" },
+    [
+      buildLogo("img/logo-white.svg", "sidebar-logo"),
+      buildNav(external ? EXTERNAL_NAV_ITEMS : NAV_ITEMS, active),
+      buildLegalLinks("sidebar-legal", active),
+    ],
+  );
+  const topbarChildren = [
     buildLogo("logo.svg", "topbar-logo"),
     el("p", {
       className: "topbar-title",
       text: "Kanban Project Management Tool",
     }),
-    el("div", { className: "topbar-actions" }, [
-      buildHelpLink(),
-      buildUserMenu(initials, onLogout),
-    ]),
-  ]);
+  ];
+  if (!external) {
+    topbarChildren.push(
+      el("div", { className: "topbar-actions" }, [
+        buildHelpLink(),
+        buildUserMenu(initials, onLogout, active),
+      ]),
+    );
+  }
 
   shell.replaceChildren(
     sidebar,
-    el("div", { className: "shell-body" }, [topbar, main]),
+    el("div", { className: "shell-body" }, [
+      el("header", { className: "topbar" }, topbarChildren),
+      main,
+    ]),
   );
 }

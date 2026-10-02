@@ -9,34 +9,64 @@
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/components.css">
 </head>
-<body>
-  <div class="auth-page">
-    <header class="auth-topbar">
-      <a class="logo" href="index.html" aria-label="Join home">
-        <svg class="logo-mark" viewBox="-5 -5 90 110" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-          <rect class="logo-mark__dot-dark" x="34" y="0" width="22" height="22" />
-          <rect class="logo-mark__dot-accent" x="8" y="24" width="22" height="22" />
-          <path class="logo-mark__hook" d="M45 30 V62 A22 22 0 0 1 14 82" />
-        </svg>
-        <span class="logo-text">OIN</span>
-      </a>
-    </header>
+<body data-page="legal">
+  <div class="shell" id="shell">
+    <main class="shell-content">
+      <article class="document">
+        <div class="document-header">
+          <h1>Legal Notice</h1>
+          <button type="button" id="back" class="back-button">
+            <img src="assets/img/icon-arrow-left.svg" alt="Back" width="21" height="20">
+          </button>
+        </div>
+        <h2>Imprint</h2>
+        <ul>
+          <li>[Student Names List]</li>
+          <li>[Address of the JOIN operator - e.g. one of the students]</li>
+          <li>[Postcode and city]</li>
+        </ul>
+        <h3>Contact</h3>
+        <p>Email: [Email]</p>
 
-    <main class="auth-main">
-      <article class="auth-card auth-card--document">
-        <h1>Legal Notice</h1>
-        <div class="heading-accent" aria-hidden="true"></div>
+        <h3>Acceptance of terms</h3>
         <p>
-          This page is a placeholder. Replace this text with your actual legal notice / imprint
-          (operator name, contact address, responsible party) before this project goes live.
+          By accessing and using Join (Product), you acknowledge and agree to the following terms
+          and conditions, and any policies, guidelines, or amendments thereto that may be presented
+          to you from time to time. We, the listed students, may update or change the terms and
+          conditions from time to time without notice.
+        </p>
+
+        <h3>Scope and ownership of the product</h3>
+        <p>
+          Join has been developed as part of a student group project in a web development bootcamp
+          at the Developer Akademie GmbH. It has an educational purpose and is not intended for
+          extensive personal &amp; business usage. As such, we cannot guarantee consistent
+          availability, reliability, accuracy, or any other aspect of quality regarding this
+          Product.
+        </p>
+        <p>
+          The design of Join is owned by the Developer Akademie GmbH. Unauthorized use,
+          reproduction, modification, distribution, or replication of the design is strictly
+          prohibited.
+        </p>
+
+        <h3>Proprietary rights</h3>
+        <p>
+          Aside from the design owned by Developer Akademie GmbH, we, the listed students, retain
+          all proprietary rights in Join, including any associated copyrighted material,
+          trademarks, and other proprietary information.
+        </p>
+
+        <h3>Use of the product</h3>
+        <p>
+          Join is intended to be used for lawful purposes only, in accordance with all applicable
+          laws and regulations. Any use of Join for illegal activities, or to harass, harm,
+          threaten, or intimidate another person, is strictly prohibited. You are solely
+          responsible for your interactions with other users of Join.
         </p>
       </article>
     </main>
-
-    <footer class="auth-footer">
-      <a href="privacy-policy.html">Privacy Policy</a>
-      <a href="legal-notice.html">Legal notice</a>
-    </footer>
   </div>
+  <script type="module" src="js/info-page.js"></script>
 </body>
 </html>

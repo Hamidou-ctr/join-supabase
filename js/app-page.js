@@ -1,8 +1,7 @@
-import { requireUser, signOut } from './auth.js';
-import { getOwnProfile } from './api/profiles.js';
 import { getTasksForSummary } from './api/tasks.js';
+import { handleLogout, loadShellUser } from './shell-init.js';
 import { mountShell } from './ui/shell.js';
-import { getGreeting, getInitials, formatDeadline } from './utils/format.js';
+import { getGreeting, formatDeadline } from './utils/format.js';
 import { computeSummary } from './utils/summary.js';
 
 function setText(id, value) {
@@ -26,30 +25,15 @@ function renderSummary({ total, counts, urgent, nextDeadline }) {
   setText('deadline-date', nextDeadline ? formatDeadline(nextDeadline) : 'No deadline');
 }
 
-async function handleLogout() {
-  await signOut();
-  window.location.replace('index.html');
-}
-
 (async () => {
-  // Real guard: asks the Auth server. Still just UX - RLS is what actually protects the data.
-  const user = await requireUser();
+  const user = await loadShellUser();
   if (!user) {
     window.location.replace('index.html');
     return;
   }
 
-  // is_guest lives in app_metadata (server-controlled) and is only used for display here.
-  const isGuest = user.app_metadata?.is_guest === true;
-  const profile = await getOwnProfile();
-  const displayName = isGuest ? null : (profile?.display_name ?? null);
-
-  mountShell({
-    active: 'summary',
-    initials: isGuest ? 'G' : getInitials(displayName),
-    onLogout: handleLogout,
-  });
-  renderGreeting(displayName);
+  mountShell({ active: 'summary', initials: user.initials, onLogout: handleLogout });
+  renderGreeting(user.displayName);
 
   const tasks = await getTasksForSummary();
   if (tasks === null) {

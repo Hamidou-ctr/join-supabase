@@ -47,19 +47,6 @@
   text-align: center;
 }
 
-.auth-card--document {
-  max-width: 42rem;
-  text-align: left;
-}
-
-.auth-card--document h1 {
-  text-align: left;
-}
-
-.auth-card--document .heading-accent {
-  margin-left: 0;
-}
-
 .auth-back {
   position: absolute;
   top: var(--space-4);
@@ -109,6 +96,22 @@
 
 .sidebar-legal {
   display: none;
+}
+
+/* Signed out (legal pages): bottom bar = Log In + Privacy Policy + Legal notice. */
+.sidebar--external {
+  align-items: center;
+  justify-content: space-around;
+}
+
+.sidebar--external .sidebar-nav {
+  flex: 0 0 auto;
+}
+
+.sidebar--external .sidebar-legal {
+  display: flex;
+  gap: var(--space-1);
+  padding: var(--space-2);
 }
 
 .nav-list {
@@ -186,11 +189,21 @@
     padding: 0;
   }
 
-  .sidebar-legal {
+  .sidebar--external {
+    align-items: stretch;
+    justify-content: flex-start;
+  }
+
+  .sidebar--external .sidebar-nav {
+    flex: 1;
+  }
+
+  .sidebar-legal,
+  .sidebar--external .sidebar-legal {
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
-    padding: 0 var(--space-5);
+    gap: 0;
+    padding: 0;
     font-size: 0.85rem;
   }
 

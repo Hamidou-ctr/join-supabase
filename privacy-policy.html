@@ -9,35 +9,24 @@
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/components.css">
 </head>
-<body>
-  <div class="auth-page">
-    <header class="auth-topbar">
-      <a class="logo" href="index.html" aria-label="Join home">
-        <svg class="logo-mark" viewBox="-5 -5 90 110" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-          <rect class="logo-mark__dot-dark" x="34" y="0" width="22" height="22" />
-          <rect class="logo-mark__dot-accent" x="8" y="24" width="22" height="22" />
-          <path class="logo-mark__hook" d="M45 30 V62 A22 22 0 0 1 14 82" />
-        </svg>
-        <span class="logo-text">OIN</span>
-      </a>
-    </header>
-
-    <main class="auth-main">
-      <article class="auth-card auth-card--document">
-        <h1>Privacy Policy</h1>
-        <div class="heading-accent" aria-hidden="true"></div>
+<body data-page="privacy">
+  <div class="shell" id="shell">
+    <main class="shell-content">
+      <article class="document">
+        <div class="document-header">
+          <h1>Privacy Policy</h1>
+          <button type="button" id="back" class="back-button">
+            <img src="assets/img/icon-arrow-left.svg" alt="Back" width="21" height="20">
+          </button>
+        </div>
         <p>
           This page is a placeholder. Replace this text with your actual privacy policy
-          (what data is collected, why, and how users can exercise their rights) before this
-          project goes live.
+          (what data is collected, why, how long it is stored and how users can request deletion)
+          before this project goes live.
         </p>
       </article>
     </main>
-
-    <footer class="auth-footer">
-      <a href="privacy-policy.html">Privacy Policy</a>
-      <a href="legal-notice.html">Legal notice</a>
-    </footer>
   </div>
+  <script type="module" src="js/info-page.js"></script>
 </body>
 </html>

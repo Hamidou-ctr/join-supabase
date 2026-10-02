@@ -326,6 +326,25 @@
 .sidebar-legal a,
 .user-menu-links a {
   color: inherit;
+  text-decoration: none;
+}
+
+.sidebar-legal a {
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+}
+
+.sidebar-legal a:hover,
+.sidebar-legal a[aria-current='page'] {
+  background: #091931;
+  color: #ffffff;
+}
+
+@media (min-width: 48rem) {
+  .sidebar-legal a {
+    padding: var(--space-2) var(--space-5);
+    border-radius: 0;
+  }
 }
 
 /* --- Avatar + user menu --- */
@@ -519,4 +538,67 @@
   .help-link {
     display: inline-flex;
   }
+}
+
+/* --- Document pages (Privacy Policy, Legal Notice, Help) --- */
+.document {
+  max-width: 52rem;
+}
+
+.document-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.back-button {
+  display: inline-flex;
+  padding: var(--space-2);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  cursor: pointer;
+}
+
+.document h2 {
+  margin: var(--space-4) 0 var(--space-2);
+  font-size: 1.75rem;
+}
+
+.document h3 {
+  margin: var(--space-4) 0 var(--space-1);
+  font-size: 1.25rem;
+}
+
+.document p,
+.document ul {
+  margin: 0 0 var(--space-3);
+}
+
+.steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+
+.steps li {
+  position: relative;
+  padding-left: 3rem;
+  counter-increment: step;
+}
+
+.steps li::before {
+  content: counter(step) '.';
+  position: absolute;
+  left: 0;
+  top: 0.35rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.steps h3 {
+  margin-top: 0;
 }
