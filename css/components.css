@@ -244,3 +244,19 @@
     pointer-events: none;
   }
 }
+
+/* Header logo stays hidden while the splash logo is travelling, then fades in just before it lands */
+.auth-topbar .logo {
+  transition: opacity 0.2s ease;
+}
+
+.splash-running .auth-topbar .logo {
+  opacity: 0;
+}
+
+.splash.is-revealing .splash-logo {
+  opacity: 0;
+  transition:
+    transform 1s cubic-bezier(0.65, 0, 0.35, 1) 0.5s,
+    opacity 0.2s ease;
+}
