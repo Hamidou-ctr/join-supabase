@@ -17,7 +17,7 @@ const NAV_ITEMS = [
   },
   { id: "add-task", label: "Add Task", href: null, icon: "icon-add-task.svg" },
   { id: "board", label: "Board", href: null, icon: "icon-board.svg" },
-  { id: "contacts", label: "Contacts", href: null, icon: "icon-contacts.svg" },
+  { id: "contacts", label: "Contacts", href: "contacts.html", icon: "icon-contacts.svg" },
 ];
 
 const EXTERNAL_NAV_ITEMS = [

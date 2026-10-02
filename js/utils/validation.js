@@ -26,3 +26,16 @@ export function isValidEmail(email) {
 export function isValidPassword(password) {
   return password.length >= PASSWORD_MIN_LENGTH && password.length <= PASSWORD_MAX_LENGTH;
 }
+
+// Mirrors the DB check on contacts.phone (digits and + ( ) / . - space, max 30 chars).
+export const PHONE_MAX_LENGTH = 30;
+const PHONE_PATTERN = /^[0-9+()/. -]*$/;
+
+export function normalizePhone(value) {
+  return value.trim();
+}
+
+// Phone is optional.
+export function isValidPhone(phone) {
+  return phone.length <= PHONE_MAX_LENGTH && PHONE_PATTERN.test(phone);
+}
