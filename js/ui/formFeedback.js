@@ -15,3 +15,15 @@ export function clearMessage(el) {
 export function setFormDisabled(form, disabled) {
   for (const field of form.elements) field.disabled = disabled;
 }
+
+// Shows a dismissible-by-navigation toast (e.g. "You signed up successfully").
+// Built with createElement/textContent only, never innerHTML.
+export function showToast(text) {
+  const toast = document.createElement('p');
+  toast.className = 'toast';
+  toast.setAttribute('role', 'status');
+  toast.setAttribute('aria-live', 'polite');
+  toast.textContent = text;
+  document.body.appendChild(toast);
+  return toast;
+}
