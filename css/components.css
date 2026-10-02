@@ -260,3 +260,245 @@
     transform 1s cubic-bezier(0.65, 0, 0.35, 1) 0.5s,
     opacity 0.2s ease;
 }
+
+/* --- Icons --- */
+.nav-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.sidebar-logo img {
+  display: block;
+  height: 3.5rem;
+  width: auto;
+}
+
+.icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.tile-icon-img {
+  width: 3.5rem;
+  height: 3.5rem;
+}
+
+/* --- Navigation items (sidebar / bottom bar) --- */
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: 4.25rem;
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
+  color: inherit;
+  font-size: 0.8rem;
+  text-decoration: none;
+}
+
+.nav-item:hover:not(.nav-item--disabled),
+.nav-item[aria-current='page'] {
+  background: #091931;
+  color: #ffffff;
+}
+
+.nav-item--disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+@media (min-width: 48rem) {
+  .nav-item {
+    flex-direction: row;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-5);
+    border-radius: 0;
+    font-size: 1rem;
+  }
+}
+
+.sidebar-legal a,
+.user-menu-links a {
+  color: inherit;
+}
+
+/* --- Avatar + user menu --- */
+.user-menu-wrap {
+  position: relative;
+}
+
+.avatar {
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 3px solid var(--color-primary);
+  border-radius: 50%;
+  background: var(--color-surface);
+  color: var(--color-primary);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.user-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + var(--space-2));
+  z-index: 20;
+  min-width: 11rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  color: #ffffff;
+}
+
+.user-menu[hidden] {
+  display: none;
+}
+
+.user-menu-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+@media (min-width: 48rem) {
+  .user-menu-links {
+    display: none;
+  }
+}
+
+.user-menu-item {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* --- Summary page --- */
+.page-heading {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.page-subtitle {
+  margin: 0;
+  padding-left: var(--space-3);
+  border-left: 3px solid var(--color-accent);
+}
+
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.summary-tiles {
+  flex: 1 1 24rem;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--space-3);
+  max-width: 34rem;
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  text-align: center;
+}
+
+.tile--half {
+  grid-column: span 3;
+  flex-direction: row;
+  gap: var(--space-3);
+}
+
+.tile--urgent {
+  grid-column: span 6;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: var(--space-3);
+}
+
+.tile--count {
+  grid-column: span 2;
+}
+
+.tile-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.tile-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tile-icon {
+  display: inline-flex;
+  padding: 0.75rem;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #ffffff;
+}
+
+.tile-icon--urgent {
+  background: #ff3d00;
+}
+
+.tile-value {
+  font-size: clamp(1.75rem, 1.4rem + 1.5vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.tile-label {
+  font-size: 0.85rem;
+  color: var(--color-text);
+}
+
+.tile-date {
+  font-weight: 700;
+}
+
+.tile-divider {
+  align-self: stretch;
+  width: 2px;
+  background: var(--color-border);
+}
+
+.greeting {
+  margin: 0;
+  font-size: clamp(1.4rem, 1.1rem + 1vw, 2.25rem);
+  display: flex;
+  flex-direction: column;
+}
+
+.greeting-name {
+  font-size: clamp(1.75rem, 1.3rem + 1.5vw, 3rem);
+  color: var(--color-primary);
+}

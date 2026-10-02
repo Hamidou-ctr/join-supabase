@@ -77,24 +77,133 @@
   font-size: 0.85rem;
 }
 
-.app-page {
-  max-width: 40rem;
-  margin: 0 auto;
-  padding: var(--space-4);
+/* --- App shell: bottom nav on mobile, sidebar from 48rem up --- */
+.shell {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-.app-header {
+.shell-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.sidebar {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 10;
+  display: flex;
+  background: var(--color-primary);
+  color: #cdd2d9;
+}
+
+.sidebar-nav {
+  flex: 1;
+}
+
+.sidebar-legal {
+  display: none;
+}
+
+.nav-list {
+  display: flex;
+  justify-content: space-around;
+  gap: var(--space-1);
+  margin: 0;
+  padding: var(--space-2);
+  list-style: none;
+}
+
+.topbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
-  flex-wrap: wrap;
+  padding: var(--space-3) var(--space-3);
+  background: var(--color-surface);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 }
 
-.greeting {
-  font-size: var(--font-size-lg);
+.topbar-logo img {
+  display: block;
+  height: 2.5rem;
+  width: auto;
 }
 
-.app-note {
-  color: var(--color-text-muted);
+.sidebar-logo {
+  display: none;
+}
+
+.topbar-title {
+  display: none;
+  margin: 0;
+}
+
+.shell-content {
+  flex: 1;
+  width: 100%;
+  max-width: 64rem;
+  margin-inline: auto;
+  padding: var(--space-4) var(--space-3) 6rem;
+}
+
+@media (min-width: 48rem) {
+  .shell {
+    flex-direction: row;
+  }
+
+  /* Sticky instead of fixed, so the sidebar stays inside the centered 1440px frame. */
+  .sidebar {
+    position: sticky;
+    inset: 0 auto auto 0;
+    flex: 0 0 14rem;
+    width: 14rem;
+    height: 100vh;
+    flex-direction: column;
+    align-items: stretch;
+    padding: var(--space-5) 0 var(--space-4);
+  }
+
+  .sidebar-logo {
+    display: block;
+    align-self: flex-start;
+    margin: 0 0 var(--space-5) var(--space-5);
+  }
+
+  .topbar-logo {
+    display: none;
+  }
+
+  .nav-list {
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 0;
+  }
+
+  .sidebar-legal {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: 0 var(--space-5);
+    font-size: 0.85rem;
+  }
+
+  .topbar {
+    padding: var(--space-3) var(--space-5);
+  }
+
+  .topbar-title {
+    display: block;
+    font-size: 1.1rem;
+  }
+
+  .shell-content {
+    padding: var(--space-5) var(--space-5) var(--space-5);
+  }
 }
