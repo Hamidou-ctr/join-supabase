@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https://stmakiuddrhaufpqwffv.supabase.co; connect-src 'self' https://stmakiuddrhaufpqwffv.supabase.co wss://stmakiuddrhaufpqwffv.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <title>Add Task - Join</title>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/add-task.css">
+</head>
+<body>
+  <div class="shell" id="shell">
+    <main class="shell-content">
+      <div class="page-heading">
+        <h1>Add Task</h1>
+      </div>
+      <p class="form-message form-message--error" id="task-error" role="alert" hidden></p>
+
+      <form class="task-form" id="task-form" novalidate>
+        <div class="task-form-columns">
+          <div class="task-form-col">
+            <div class="task-field">
+              <label for="task-title">Title<span class="required-mark" aria-hidden="true">*</span></label>
+              <input type="text" id="task-title" name="title" placeholder="Enter a title" maxlength="100" autocomplete="off" required aria-describedby="title-error">
+              <p class="field-error" id="title-error" hidden>This field is required</p>
+            </div>
+            <div class="task-field">
+              <label for="task-description">Description</label>
+              <textarea id="task-description" name="description" placeholder="Enter a Description" maxlength="1000" rows="4"></textarea>
+            </div>
+            <div class="task-field">
+              <label for="task-due">Due date<span class="required-mark" aria-hidden="true">*</span></label>
+              <input type="date" id="task-due" name="due_date" required aria-describedby="due-error">
+              <p class="field-error" id="due-error" hidden>Please choose a date that is not in the past</p>
+            </div>
+          </div>
+
+          <div class="task-form-divider" aria-hidden="true"></div>
+
+          <div class="task-form-col">
+            <fieldset class="task-field priority-field">
+              <legend>Priority</legend>
+              <div class="priority-options" id="priority-options">
+                <button type="button" class="priority-option priority-option--urgent" data-priority="urgent" aria-pressed="false">
+                  <span>Urgent</span><span class="priority-icon" aria-hidden="true"></span>
+                </button>
+                <button type="button" class="priority-option priority-option--medium" data-priority="medium" aria-pressed="true">
+                  <span>Medium</span><span class="priority-icon" aria-hidden="true"></span>
+                </button>
+                <button type="button" class="priority-option priority-option--low" data-priority="low" aria-pressed="false">
+                  <span>Low</span><span class="priority-icon" aria-hidden="true"></span>
+                </button>
+              </div>
+            </fieldset>
+
+            <div class="task-field">
+              <label for="assignee-input" id="assignee-label">Assigned to</label>
+              <div class="assignee-select" id="assignee-select">
+                <input type="text" id="assignee-input" class="select-control" placeholder="Select contacts to assign" autocomplete="off" maxlength="100"
+                  role="combobox" aria-expanded="false" aria-controls="assignee-list" aria-autocomplete="list">
+                <button type="button" class="select-toggle" id="assignee-toggle" aria-label="Show contacts" tabindex="-1"></button>
+                <ul class="assignee-list" id="assignee-list" role="listbox" aria-multiselectable="true" aria-labelledby="assignee-label" hidden></ul>
+              </div>
+              <ul class="assignee-chips" id="assignee-chips" aria-label="Assigned contacts"></ul>
+            </div>
+
+            <div class="task-field">
+              <label for="task-category">Category<span class="required-mark" aria-hidden="true">*</span></label>
+              <select id="task-category" name="category" class="select-control select-control--native" required>
+                <option value="" selected disabled>Select task category</option>
+                <option value="technical_task">Technical Task</option>
+                <option value="user_story">User Story</option>
+              </select>
+            </div>
+
+            <div class="task-field">
+              <label for="subtask-input">Subtasks</label>
+              <div class="subtask-input-wrap">
+                <input type="text" id="subtask-input" placeholder="Add new subtask" maxlength="100" autocomplete="off">
+                <span class="subtask-input-actions" id="subtask-input-actions" hidden>
+                  <button type="button" class="icon-button" id="subtask-cancel" aria-label="Discard subtask"><img src="assets/img/close.svg" alt="" width="12" height="12"></button>
+                  <button type="button" class="icon-button icon-button--confirm" id="subtask-add" aria-label="Add subtask"><img src="assets/img/check-dark.svg" alt="" width="16" height="12"></button>
+                </span>
+              </div>
+              <ul class="subtask-list" id="subtask-list"></ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="task-form-footer">
+          <p class="required-note"><span class="required-mark" aria-hidden="true">*</span>This field is required</p>
+          <div class="task-form-actions">
+            <button type="button" class="button button--secondary" id="task-clear">
+              <span>Clear</span><img src="assets/img/close.svg" alt="" width="12" height="12">
+            </button>
+            <button type="submit" class="button button--primary" id="task-submit" disabled>
+              <span>Create Task</span><img src="assets/img/check.svg" alt="" width="16" height="12">
+            </button>
+          </div>
+        </div>
+      </form>
+    </main>
+  </div>
+
+  <script type="module" src="js/add-task-page.js"></script>
+</body>
+</html>

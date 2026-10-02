@@ -1,0 +1,425 @@
+/* --- Add Task page --- */
+.task-form {
+  margin-top: var(--space-4);
+}
+
+.task-form-columns {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.task-form-col {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.task-form-divider {
+  display: none;
+  width: 1px;
+  background: var(--color-border);
+}
+
+.task-field {
+  position: relative;
+  margin: 0 0 var(--space-4);
+  padding: 0;
+  border: 0;
+}
+
+.task-field label,
+.task-field legend {
+  display: block;
+  margin-bottom: var(--space-1);
+  padding: 0;
+  font-size: 1.1rem;
+}
+
+.required-mark {
+  color: #ff5a5f;
+}
+
+.task-field input,
+.task-field textarea,
+.select-control {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+}
+
+.task-field input::placeholder,
+.task-field textarea::placeholder {
+  color: var(--color-text-muted);
+}
+
+.task-field input:hover,
+.task-field textarea:hover,
+.select-control:hover,
+.task-field input:focus,
+.task-field textarea:focus,
+.select-control:focus {
+  border-color: var(--color-accent);
+}
+
+.task-field textarea {
+  min-height: 7rem;
+  resize: vertical;
+}
+
+.task-field [aria-invalid] {
+  border-color: var(--color-error);
+}
+
+.field-error {
+  margin: var(--space-1) 0 0;
+  color: var(--color-error);
+  font-size: 0.85rem;
+}
+
+/* --- Priority --- */
+.priority-options {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.priority-option {
+  flex: 1 1 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 0.75rem var(--space-2);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+}
+
+.priority-option:hover {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* The icon files only provide the shape; the colour comes from the mask background. */
+.priority-icon {
+  width: 1.25rem;
+  height: 0.9rem;
+  background-color: var(--priority-color);
+  mask: var(--priority-icon) center / contain no-repeat;
+  -webkit-mask: var(--priority-icon) center / contain no-repeat;
+}
+
+.priority-option--urgent {
+  --priority-color: #ff3d00;
+  --priority-icon: url('../assets/img/prio-urgent.svg');
+}
+
+.priority-option--medium {
+  --priority-color: #ffa800;
+  --priority-icon: url('../assets/img/prio-medium.svg');
+}
+
+.priority-option--low {
+  --priority-color: #7ae229;
+  --priority-icon: url('../assets/img/prio-low.svg');
+}
+
+.priority-option[aria-pressed='true'] {
+  background: var(--priority-color);
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: none;
+}
+
+.priority-option[aria-pressed='true'] .priority-icon {
+  background-color: #ffffff;
+}
+
+/* --- Native select with the design's small arrow --- */
+.select-control--native {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 2.75rem;
+  background-image: linear-gradient(45deg, transparent 50%, var(--color-text) 50%),
+    linear-gradient(135deg, var(--color-text) 50%, transparent 50%);
+  background-position: calc(100% - 1.25rem) 50%, calc(100% - 1rem) 50%;
+  background-size: 0.3rem 0.3rem;
+  background-repeat: no-repeat;
+}
+
+/* --- Assignee picker --- */
+.assignee-select {
+  position: relative;
+}
+
+.assignee-select .select-control {
+  padding-right: 2.75rem;
+}
+
+.select-toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 2.75rem;
+  height: 100%;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.select-toggle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-inline: 0.28rem solid transparent;
+  border-top: 0.3rem solid var(--color-text);
+  transform: translate(-50%, -25%);
+}
+
+.select-toggle.is-open::after {
+  border-top: 0;
+  border-bottom: 0.3rem solid var(--color-text);
+}
+
+.assignee-list {
+  position: absolute;
+  inset: calc(100% + var(--space-1)) 0 auto 0;
+  z-index: 5;
+  max-height: 15rem;
+  margin: 0;
+  padding: var(--space-1) 0;
+  overflow-y: auto;
+  list-style: none;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.assignee-list[hidden] {
+  display: none;
+}
+
+.assignee-option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.assignee-option:hover,
+.assignee-option.is-active {
+  background: #eef1f6;
+}
+
+.assignee-option[aria-selected='true'] {
+  background: var(--color-primary);
+  color: #ffffff;
+}
+
+.assignee-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.assignee-check {
+  flex: 0 0 auto;
+  width: 1.1rem;
+  height: 1.1rem;
+  border: 2px solid currentColor;
+  border-radius: 3px;
+  position: relative;
+}
+
+.assignee-option[aria-selected='true'] .assignee-check::after {
+  content: '';
+  position: absolute;
+  top: 0.05rem;
+  left: 0.3rem;
+  width: 0.25rem;
+  height: 0.55rem;
+  border: solid currentColor;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.assignee-empty {
+  padding: var(--space-2) var(--space-3);
+  color: var(--color-text-muted);
+}
+
+.assignee-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.assignee-chips:empty {
+  display: none;
+}
+
+.assignee-chips .contact-avatar {
+  width: 2.1rem;
+  height: 2.1rem;
+  font-size: 0.7rem;
+}
+
+/* --- Subtasks --- */
+.subtask-input-wrap {
+  position: relative;
+}
+
+.subtask-input-wrap input {
+  padding-right: 5rem;
+}
+
+.subtask-input-actions {
+  position: absolute;
+  top: 50%;
+  right: var(--space-2);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  transform: translateY(-50%);
+}
+
+.subtask-input-actions[hidden] {
+  display: none;
+}
+
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+}
+
+.icon-button:hover {
+  background: #eef1f6;
+}
+
+.subtask-list {
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.subtask-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+.subtask-item:hover {
+  background: #eef1f6;
+}
+
+.subtask-title {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.subtask-title::before {
+  content: '\2022';
+  margin-right: var(--space-2);
+}
+
+.subtask-actions {
+  display: inline-flex;
+  gap: var(--space-1);
+  opacity: 0;
+}
+
+.subtask-item:hover .subtask-actions,
+.subtask-item:focus-within .subtask-actions {
+  opacity: 1;
+}
+
+.subtask-edit-input {
+  flex: 1;
+  min-width: 0;
+  padding: var(--space-1) var(--space-2);
+  border: 0;
+  border-bottom: 1px solid var(--color-accent);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+.subtask-item:has(.subtask-edit-input) .subtask-actions {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .subtask-actions {
+    opacity: 1;
+  }
+}
+
+/* --- Footer --- */
+.task-form-footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.required-note {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.task-form-actions {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.task-form-actions .button {
+  flex: 1;
+  gap: var(--space-2);
+}
+
+@media (min-width: 48rem) {
+  .task-form-columns {
+    flex-direction: row;
+    gap: var(--space-5);
+  }
+
+  .task-form-divider {
+    display: block;
+  }
+
+  .task-form-footer {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .task-form-actions .button {
+    flex: 0 0 auto;
+  }
+}

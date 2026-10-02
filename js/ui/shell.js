@@ -15,7 +15,7 @@ const NAV_ITEMS = [
     href: "app.html",
     icon: "icon-summary.svg",
   },
-  { id: "add-task", label: "Add Task", href: null, icon: "icon-add-task.svg" },
+  { id: "add-task", label: "Add Task", href: "add-task.html", icon: "icon-add-task.svg" },
   { id: "board", label: "Board", href: null, icon: "icon-board.svg" },
   { id: "contacts", label: "Contacts", href: "contacts.html", icon: "icon-contacts.svg" },
 ];

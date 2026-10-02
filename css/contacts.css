@@ -100,27 +100,6 @@
   font-size: 0.9rem;
 }
 
-.contact-avatar {
-  display: inline-flex;
-  flex: 0 0 auto;
-  align-items: center;
-  justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  border: 2px solid #ffffff;
-  border-radius: 50%;
-  color: #ffffff;
-  font-size: 0.8rem;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
-}
-
-.contact-avatar--large {
-  width: 7.5rem;
-  height: 7.5rem;
-  font-size: 2.75rem;
-  border-width: 3px;
-}
-
 /* --- Detail --- */
 .contact-hero {
   display: flex;
