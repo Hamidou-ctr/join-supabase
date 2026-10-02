@@ -1,88 +1,183 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https://stmakiuddrhaufpqwffv.supabase.co; connect-src 'self' https://stmakiuddrhaufpqwffv.supabase.co wss://stmakiuddrhaufpqwffv.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'">
-  <title>Log in - Join</title>
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/layout.css">
-  <link rel="stylesheet" href="css/components.css">
-</head>
-<body>
-  <div class="splash" id="splash" aria-hidden="true">
-    <svg class="splash-logo" id="splash-logo" viewBox="0 0 274 335" xmlns="http://www.w3.org/2000/svg" focusable="false">
-          <path class="splash-logo__dark" d="M196.314 0H135.623V69.8251H196.314V0Z"/>
-          <path class="splash-logo__dark" d="M135.623 126.614H196.315V225.091C196.592 248.787 189.848 272.031 176.94 291.868C164.195 311.141 139.591 334.072 94.0723 334.072C44.4917 334.072 15.5931 310.626 0 297.777L38.2825 250.554C53.5021 262.981 68.1615 273.204 94.3057 273.204C114.101 273.204 121.99 265.138 126.612 258.104C132.896 248.334 136.146 236.908 135.95 225.279L135.623 126.614Z"/>
-          <path class="splash-logo__accent" d="M104.67 82.5332H43.9781V143.495H104.67V82.5332Z"/>
-          <path class="splash-logo__dark" d="M228.108 305.467C228.108 318.456 221.525 325.444 212.328 325.444C203.131 325.444 197.108 317.143 197.108 306.123C197.108 295.103 203.318 286.381 212.842 286.381C222.366 286.381 228.108 294.962 228.108 305.467ZM204.158 305.983C204.158 313.814 207.286 319.582 212.655 319.582C218.024 319.582 221.058 313.486 221.058 305.514C221.058 298.526 218.257 291.961 212.655 291.961C207.053 291.961 204.158 298.292 204.158 305.983Z"/>
-          <path class="splash-logo__dark" d="M240.153 286.944V324.834H233.43V286.944H240.153Z"/>
-          <path class="splash-logo__dark" d="M247.436 324.834V286.944H254.905L262.935 302.56C265.002 306.643 266.842 310.838 268.444 315.127C268.024 310.438 267.837 305.045 267.837 299.042V286.944H274V324.834H267.044L258.92 308.89C256.77 304.702 254.853 300.397 253.178 295.994C253.178 300.684 253.505 305.983 253.505 312.501V324.787L247.436 324.834Z"/>
-    </svg>
-  </div>
-  <div class="auth-page">
-    <header class="auth-topbar">
-      <a class="logo" href="index.html" aria-label="Join home">
-        <svg class="logo-mark" viewBox="-5 -5 90 110" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-          <rect class="logo-mark__dot-dark" x="34" y="0" width="22" height="22" />
-          <rect class="logo-mark__dot-accent" x="8" y="24" width="22" height="22" />
-          <path class="logo-mark__hook" d="M45 30 V62 A22 22 0 0 1 14 82" />
-        </svg>
-        <span class="logo-text">OIN</span>
-      </a>
-      <nav class="auth-topbar-nav" aria-label="Sign up">
-        <span>Not a Join user?</span>
-        <a class="button button--primary" href="signup.html">Sign up</a>
-      </nav>
-    </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https://stmakiuddrhaufpqwffv.supabase.co; connect-src 'self' https://stmakiuddrhaufpqwffv.supabase.co wss://stmakiuddrhaufpqwffv.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'"
+    />
+    <title>Log in - Join</title>
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/components.css" />
+  </head>
+  <body>
+    <div class="splash" id="splash" aria-hidden="true">
+      <svg
+        class="splash-logo"
+        id="splash-logo"
+        viewBox="0 0 274 335"
+        xmlns="http://www.w3.org/2000/svg"
+        focusable="false"
+      >
+        <path
+          class="splash-logo__dark"
+          d="M196.314 0H135.623V69.8251H196.314V0Z"
+        />
+        <path
+          class="splash-logo__dark"
+          d="M135.623 126.614H196.315V225.091C196.592 248.787 189.848 272.031 176.94 291.868C164.195 311.141 139.591 334.072 94.0723 334.072C44.4917 334.072 15.5931 310.626 0 297.777L38.2825 250.554C53.5021 262.981 68.1615 273.204 94.3057 273.204C114.101 273.204 121.99 265.138 126.612 258.104C132.896 248.334 136.146 236.908 135.95 225.279L135.623 126.614Z"
+        />
+        <path
+          class="splash-logo__accent"
+          d="M104.67 82.5332H43.9781V143.495H104.67V82.5332Z"
+        />
+        <path
+          class="splash-logo__dark"
+          d="M228.108 305.467C228.108 318.456 221.525 325.444 212.328 325.444C203.131 325.444 197.108 317.143 197.108 306.123C197.108 295.103 203.318 286.381 212.842 286.381C222.366 286.381 228.108 294.962 228.108 305.467ZM204.158 305.983C204.158 313.814 207.286 319.582 212.655 319.582C218.024 319.582 221.058 313.486 221.058 305.514C221.058 298.526 218.257 291.961 212.655 291.961C207.053 291.961 204.158 298.292 204.158 305.983Z"
+        />
+        <path
+          class="splash-logo__dark"
+          d="M240.153 286.944V324.834H233.43V286.944H240.153Z"
+        />
+        <path
+          class="splash-logo__dark"
+          d="M247.436 324.834V286.944H254.905L262.935 302.56C265.002 306.643 266.842 310.838 268.444 315.127C268.024 310.438 267.837 305.045 267.837 299.042V286.944H274V324.834H267.044L258.92 308.89C256.77 304.702 254.853 300.397 253.178 295.994C253.178 300.684 253.505 305.983 253.505 312.501V324.787L247.436 324.834Z"
+        />
+      </svg>
+    </div>
+    <div class="auth-page">
+      <header class="auth-topbar">
+        <a class="logo" href="index.html" aria-label="Join home">
+          <svg
+            class="logo-mark"
+            viewBox="-5 -5 90 110"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <rect
+              class="logo-mark__dot-dark"
+              x="34"
+              y="0"
+              width="22"
+              height="22"
+            />
+            <rect
+              class="logo-mark__dot-accent"
+              x="8"
+              y="24"
+              width="22"
+              height="22"
+            />
+            <path class="logo-mark__hook" d="M45 30 V62 A22 22 0 0 1 14 82" />
+          </svg>
+          <span class="logo-text">OIN</span>
+        </a>
+        <nav class="auth-topbar-nav" aria-label="Sign up">
+          <span>Not a Join user?</span>
+          <a class="button button--primary" href="signup.html">Sign up</a>
+        </nav>
+      </header>
 
-    <main class="auth-main">
-      <section class="auth-card" aria-labelledby="login-heading">
-        <h1 id="login-heading">Log in</h1>
-        <div class="heading-accent" aria-hidden="true"></div>
+      <main class="auth-main">
+        <section class="auth-card" aria-labelledby="login-heading">
+          <h1 id="login-heading">Log in</h1>
+          <div class="heading-accent" aria-hidden="true"></div>
 
-        <p class="form-message" data-role="message" role="status" aria-live="polite" hidden></p>
+          <p
+            class="form-message"
+            data-role="message"
+            role="status"
+            aria-live="polite"
+            hidden
+          ></p>
 
-        <form id="login-form" novalidate>
-          <div class="form-field">
-            <label for="login-email" class="sr-only">Email</label>
-            <div class="input-icon-field">
-              <input id="login-email" name="email" type="email" placeholder="Email" autocomplete="email" required maxlength="254">
-              <span class="field-icon" aria-hidden="true">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="2" y="4" width="20" height="16" rx="2" />
-                  <polyline points="22 6 12 13 2 6" />
-                </svg>
-              </span>
+          <form id="login-form" novalidate>
+            <div class="form-field">
+              <label for="login-email" class="sr-only">Email</label>
+              <div class="input-icon-field">
+                <input
+                  id="login-email"
+                  name="email"
+                  type="email"
+                  placeholder="Email"
+                  autocomplete="email"
+                  required
+                  maxlength="254"
+                />
+                <span class="field-icon" aria-hidden="true">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <rect x="2" y="4" width="20" height="16" rx="2" />
+                    <polyline points="22 6 12 13 2 6" />
+                  </svg>
+                </span>
+              </div>
             </div>
-          </div>
-          <div class="form-field">
-            <label for="login-password" class="sr-only">Password</label>
-            <div class="input-icon-field">
-              <input id="login-password" name="password" type="password" placeholder="Password" autocomplete="current-password" required maxlength="72">
-              <span class="field-icon" aria-hidden="true">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="3" y="11" width="18" height="11" rx="2" />
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                </svg>
-              </span>
+            <div class="form-field">
+              <label for="login-password" class="sr-only">Password</label>
+              <div class="input-icon-field">
+                <input
+                  id="login-password"
+                  name="password"
+                  type="password"
+                  placeholder="Password"
+                  autocomplete="current-password"
+                  required
+                  maxlength="72"
+                />
+                <span class="field-icon" aria-hidden="true">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <rect x="3" y="11" width="18" height="11" rx="2" />
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                  </svg>
+                </span>
+              </div>
             </div>
-          </div>
 
-          <div class="auth-actions">
-            <button type="submit" class="button button--primary">Log in</button>
-            <button type="button" id="guest-login" class="button button--secondary">Guest Log in</button>
-          </div>
-        </form>
-      </section>
-    </main>
+            <div class="auth-actions">
+              <button type="submit" class="button button--primary">
+                Log in
+              </button>
+              <button
+                type="button"
+                id="guest-login"
+                class="button button--secondary"
+              >
+                Guest Log in
+              </button>
+            </div>
+          </form>
+        </section>
+      </main>
 
-    <footer class="auth-footer">
-      <a href="privacy-policy.html">Privacy Policy</a>
-      <a href="legal-notice.html">Legal notice</a>
-    </footer>
-  </div>
-  <script type="module" src="js/splash.js"></script>
-  <script type="module" src="js/login-page.js"></script>
-</body>
+      <footer class="auth-footer">
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="legal-notice.html">Legal notice</a>
+      </footer>
+    </div>
+    <script type="module" src="js/splash.js"></script>
+    <script type="module" src="js/login-page.js"></script>
+  </body>
 </html>
