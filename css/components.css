@@ -502,3 +502,21 @@
   font-size: clamp(1.75rem, 1.3rem + 1.5vw, 3rem);
   color: var(--color-primary);
 }
+
+/* --- Topbar actions: help link next to the avatar (desktop only, as in the design) --- */
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.help-link {
+  display: none;
+  line-height: 0;
+}
+
+@media (min-width: 48rem) {
+  .help-link {
+    display: inline-flex;
+  }
+}

@@ -117,6 +117,24 @@ function buildUserMenu(initials, onLogout) {
   return el("div", { className: "user-menu-wrap" }, [toggle, menu]);
 }
 
+function buildHelpLink() {
+  const link = el("a", {
+    className: "help-link",
+    attrs: { href: "help.html", "aria-label": "Help" },
+  });
+  link.append(
+    el("img", {
+      attrs: {
+        src: "assets/img/icon-help.svg",
+        alt: "",
+        width: "20",
+        height: "20",
+      },
+    }),
+  );
+  return link;
+}
+
 // Wraps the page's <main> (inside #shell) with sidebar + top bar, so every app page shares one shell.
 export function mountShell({ active, initials, onLogout }) {
   const shell = document.getElementById("shell");
@@ -133,7 +151,10 @@ export function mountShell({ active, initials, onLogout }) {
       className: "topbar-title",
       text: "Kanban Project Management Tool",
     }),
-    buildUserMenu(initials, onLogout),
+    el("div", { className: "topbar-actions" }, [
+      buildHelpLink(),
+      buildUserMenu(initials, onLogout),
+    ]),
   ]);
 
   shell.replaceChildren(
