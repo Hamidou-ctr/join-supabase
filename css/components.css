@@ -184,3 +184,63 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
   z-index: 10;
 }
+
+/* --- Intro splash (index.html): logo starts centered, then glides to the top-left --- */
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg);
+  transition: background-color 0.9s ease 0.5s;
+  /* Fallback if JS fails: never keep the page blocked */
+  animation: splash-failsafe 0s linear 4s forwards;
+}
+
+.splash.is-moving {
+  background-color: transparent;
+}
+
+.splash.is-done {
+  display: none;
+}
+
+.splash-logo {
+  width: clamp(5rem, 20vw, 17.125rem);
+  height: auto;
+  transform-origin: top left;
+  transition: transform 1s cubic-bezier(0.65, 0, 0.35, 1) 0.5s;
+}
+
+.splash.is-moving .splash-logo {
+  transform: translate(var(--splash-dx), var(--splash-dy)) scale(var(--splash-scale));
+}
+
+.splash-logo__dark {
+  fill: var(--color-primary);
+  transition: fill 0.9s ease 0.5s;
+}
+
+.splash-logo__accent {
+  fill: var(--color-accent);
+}
+
+/* Mobile design: dark intro screen with a white logo */
+@media (max-width: 47.99rem) {
+  .splash:not(.is-moving) {
+    background: var(--color-primary);
+  }
+
+  .splash:not(.is-moving) .splash-logo__dark {
+    fill: #ffffff;
+  }
+}
+
+@keyframes splash-failsafe {
+  to {
+    visibility: hidden;
+    pointer-events: none;
+  }
+}

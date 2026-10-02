@@ -1,4 +1,7 @@
 .auth-page {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
