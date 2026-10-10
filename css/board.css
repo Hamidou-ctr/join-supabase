@@ -152,9 +152,14 @@
   border-radius: var(--radius-md);
 }
 
-.column-list.is-drop-target {
+.column {
+  border-radius: var(--radius-md);
+}
+
+.column.is-drop-target {
   outline: 2px dashed var(--color-accent);
   outline-offset: 4px;
+  background: rgba(41, 171, 226, 0.06);
 }
 
 .column-empty {
@@ -174,9 +179,25 @@
   cursor: grab;
 }
 
+.card {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
 .card.is-dragging {
-  opacity: 0.5;
+  opacity: 0.4;
+}
+
+/* Follows the pointer while dragging; ignores the pointer so the column below can be hit-tested. */
+.card--ghost {
+  position: fixed;
+  z-index: 100;
+  margin: 0;
+  list-style: none;
+  pointer-events: none;
   transform: rotate(3deg);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  cursor: grabbing;
 }
 
 .card-button {

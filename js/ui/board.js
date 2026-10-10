@@ -30,7 +30,66 @@ function assigneeContacts(task, contactsById) {
   return task.task_assignees.map((row) => contactsById.get(row.contact_id)).filter(Boolean);
 }
 
-function buildCard(task, contactsById, { onOpen, onDragStart, onDragEnd }) {
+// Pointer-based drag for mouse/pen (native HTML5 drag is unreliable on cards that contain a
+// button, e.g. in Firefox). Touch keeps normal scrolling; there the "Move to" select is used.
+function enableDrag(card, taskId, onDrop) {
+  card.addEventListener('pointerdown', (event) => {
+    if (event.pointerType === 'touch' || event.button !== 0) return;
+    const startX = event.clientX;
+    const startY = event.clientY;
+    let ghost = null;
+    let offsetX = 0;
+    let offsetY = 0;
+    let target = null;
+
+    const setTarget = (next) => {
+      if (target === next) return;
+      target?.classList.remove('is-drop-target');
+      target = next;
+      target?.classList.add('is-drop-target');
+    };
+
+    const onMove = (move) => {
+      if (!ghost) {
+        if (Math.hypot(move.clientX - startX, move.clientY - startY) < 6) return;
+        const rect = card.getBoundingClientRect();
+        offsetX = startX - rect.left;
+        offsetY = startY - rect.top;
+        ghost = card.cloneNode(true);
+        ghost.classList.add('card--ghost');
+        ghost.setAttribute('aria-hidden', 'true');
+        ghost.style.width = `${rect.width}px`;
+        document.body.append(ghost);
+        card.classList.add('is-dragging');
+      }
+      ghost.style.left = `${move.clientX - offsetX}px`;
+      ghost.style.top = `${move.clientY - offsetY}px`;
+      setTarget(document.elementFromPoint(move.clientX, move.clientY)?.closest('.column') ?? null);
+    };
+
+    const onEnd = (end) => {
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onEnd);
+      window.removeEventListener('pointercancel', onEnd);
+      if (!ghost) return;
+      ghost.remove();
+      card.classList.remove('is-dragging');
+      const status = target?.dataset.status;
+      setTarget(null);
+      // The click that follows a drag must not open the task.
+      const swallow = (click) => click.stopPropagation();
+      window.addEventListener('click', swallow, { capture: true, once: true });
+      window.setTimeout(() => window.removeEventListener('click', swallow, { capture: true }), 0);
+      if (end.type === 'pointerup' && status) onDrop(taskId, status);
+    };
+
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onEnd);
+    window.addEventListener('pointercancel', onEnd);
+  });
+}
+
+function buildCard(task, contactsById, { onOpen, onDrop }) {
   const { total, done } = subtaskProgress(task);
   const contacts = assigneeContacts(task, contactsById);
   const children = [
@@ -59,23 +118,14 @@ function buildCard(task, contactsById, { onOpen, onDragStart, onDragEnd }) {
     priorityIcon(task.priority),
   ]));
 
-  const card = el('li', { className: 'card', attrs: { draggable: 'true', 'data-id': task.id } });
+  const card = el('li', { className: 'card', attrs: { 'data-id': task.id } });
   const open = el('button', {
     className: 'card-button',
     attrs: { type: 'button', 'aria-label': `Open task: ${task.title}` },
   }, children);
   open.addEventListener('click', () => onOpen(task.id));
   card.append(open);
-  card.addEventListener('dragstart', (event) => {
-    event.dataTransfer.setData('text/plain', task.id);
-    event.dataTransfer.effectAllowed = 'move';
-    card.classList.add('is-dragging');
-    onDragStart(task.id);
-  });
-  card.addEventListener('dragend', () => {
-    card.classList.remove('is-dragging');
-    onDragEnd();
-  });
+  enableDrag(card, task.id, onDrop);
   return card;
 }
 
@@ -89,26 +139,12 @@ export function renderBoard(container, groups, contactsById, handlers) {
     }
     for (const task of tasks) list.append(buildCard(task, contactsById, handlers));
 
-    list.addEventListener('dragover', (event) => {
-      event.preventDefault();
-      event.dataTransfer.dropEffect = 'move';
-      list.classList.add('is-drop-target');
-    });
-    list.addEventListener('dragleave', (event) => {
-      if (!list.contains(event.relatedTarget)) list.classList.remove('is-drop-target');
-    });
-    list.addEventListener('drop', (event) => {
-      event.preventDefault();
-      list.classList.remove('is-drop-target');
-      handlers.onDrop(event.dataTransfer.getData('text/plain'), status);
-    });
-
     const add = el('button', {
       className: 'column-add',
       attrs: { type: 'button', 'aria-label': `Add task to ${title}` },
     });
     add.addEventListener('click', () => handlers.onAdd(status));
-    return el('section', { className: 'column' }, [
+    return el('section', { className: 'column', attrs: { 'data-status': status } }, [
       el('header', { className: 'column-header' }, [el('h2', { text: title }), add]),
       list,
     ]);

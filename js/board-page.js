@@ -63,9 +63,7 @@ function render() {
       dialog.showModal();
     },
     onAdd: openAdd,
-    onDragStart: () => {},
-    onDragEnd: () => {},
-    // The id comes from dataTransfer, i.e. from outside: only accept ids we actually know.
+    // relocate() only accepts ids of loaded tasks and whitelisted statuses.
     onDrop: (id, status) => relocate(id, status),
   });
 }
