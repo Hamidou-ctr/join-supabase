@@ -125,6 +125,13 @@ export function createAssigneePicker({ root, input, toggle, list, chips, onChang
     getSelectedIds() {
       return [...selected];
     },
+    setSelected(ids) {
+      selected.clear();
+      // Only ids that are real contacts of this board can be selected.
+      for (const id of ids) if (contacts.some((contact) => contact.id === id)) selected.add(id);
+      renderList();
+      renderChips();
+    },
     reset() {
       selected.clear();
       input.value = '';
