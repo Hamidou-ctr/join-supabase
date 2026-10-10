@@ -30,17 +30,34 @@ function assigneeContacts(task, contactsById) {
   return task.task_assignees.map((row) => contactsById.get(row.contact_id)).filter(Boolean);
 }
 
-// Pointer-based drag for mouse/pen (native HTML5 drag is unreliable on cards that contain a
-// button, e.g. in Firefox). Touch keeps normal scrolling; there the "Move to" select is used.
+const TOUCH_HOLD_MS = 300;
+const TOUCH_SLOP_PX = 8;
+const MOUSE_SLOP_PX = 6;
+const SCROLL_EDGE_PX = 70;
+// The fixed bottom navigation covers the lower part of the board on phones.
+const NAV_COVER_PX = 80;
+const SCROLL_STEP_PX = 14;
+
+// Pointer-based drag (native HTML5 drag is unreliable on cards that contain a button and does
+// not exist on touch). Mouse: drag after a few px. Touch: press and hold, so normal swiping
+// still scrolls the board. The board (and the hovered column) auto-scrolls near its edges.
 function enableDrag(card, taskId, onDrop) {
+  card.addEventListener('contextmenu', (event) => event.preventDefault());
+
   card.addEventListener('pointerdown', (event) => {
-    if (event.pointerType === 'touch' || event.button !== 0) return;
+    const isTouch = event.pointerType === 'touch';
+    if (!isTouch && event.button !== 0) return;
+
     const startX = event.clientX;
     const startY = event.clientY;
+    let x = startX;
+    let y = startY;
     let ghost = null;
     let offsetX = 0;
     let offsetY = 0;
     let target = null;
+    let holdTimer = null;
+    let frame = null;
 
     const setTarget = (next) => {
       if (target === next) return;
@@ -49,33 +66,62 @@ function enableDrag(card, taskId, onDrop) {
       target?.classList.add('is-drop-target');
     };
 
-    const onMove = (move) => {
-      if (!ghost) {
-        if (Math.hypot(move.clientX - startX, move.clientY - startY) < 6) return;
-        const rect = card.getBoundingClientRect();
-        offsetX = startX - rect.left;
-        offsetY = startY - rect.top;
-        ghost = card.cloneNode(true);
-        ghost.classList.add('card--ghost');
-        ghost.setAttribute('aria-hidden', 'true');
-        ghost.style.width = `${rect.width}px`;
-        document.body.append(ghost);
-        card.classList.add('is-dragging');
-      }
-      ghost.style.left = `${move.clientX - offsetX}px`;
-      ghost.style.top = `${move.clientY - offsetY}px`;
-      setTarget(document.elementFromPoint(move.clientX, move.clientY)?.closest('.column') ?? null);
+    const place = () => {
+      ghost.style.left = `${x - offsetX}px`;
+      ghost.style.top = `${y - offsetY}px`;
+      setTarget(document.elementFromPoint(x, y)?.closest('.column') ?? null);
     };
 
-    const onEnd = (end) => {
+    // Only the board's own scroll areas scroll, never the page.
+    const edgeScroll = (scroller, cover) => {
+      if (!scroller || scroller.scrollHeight <= scroller.clientHeight) return;
+      const rect = scroller.getBoundingClientRect();
+      if (y < rect.top + SCROLL_EDGE_PX) scroller.scrollTop -= SCROLL_STEP_PX;
+      else if (y > rect.bottom - cover - SCROLL_EDGE_PX) scroller.scrollTop += SCROLL_STEP_PX;
+    };
+
+    const autoScroll = () => {
+      if (!ghost) return;
+      const mobile = window.matchMedia('(max-width: 47.99rem)').matches;
+      edgeScroll(document.querySelector('.board-columns'), mobile ? NAV_COVER_PX : 0);
+      edgeScroll(target?.querySelector('.column-list'), 0);
+      place();
+      frame = window.requestAnimationFrame(autoScroll);
+    };
+
+    const start = () => {
+      const rect = card.getBoundingClientRect();
+      offsetX = x - rect.left;
+      offsetY = y - rect.top;
+      ghost = card.cloneNode(true);
+      ghost.classList.add('card--ghost');
+      ghost.setAttribute('aria-hidden', 'true');
+      ghost.style.width = `${rect.width}px`;
+      document.body.append(ghost);
+      card.classList.add('is-dragging');
+      if (isTouch && navigator.vibrate) navigator.vibrate(15);
+      place();
+      frame = window.requestAnimationFrame(autoScroll);
+    };
+
+    // Once a drag runs, touch scrolling must be suppressed (needs a non-passive listener).
+    const blockScroll = (touch) => {
+      if (ghost) touch.preventDefault();
+    };
+
+    const finish = (end) => {
+      window.clearTimeout(holdTimer);
+      window.cancelAnimationFrame(frame);
       window.removeEventListener('pointermove', onMove);
-      window.removeEventListener('pointerup', onEnd);
-      window.removeEventListener('pointercancel', onEnd);
+      window.removeEventListener('pointerup', finish);
+      window.removeEventListener('pointercancel', finish);
+      window.removeEventListener('touchmove', blockScroll);
       if (!ghost) return;
       ghost.remove();
       card.classList.remove('is-dragging');
       const status = target?.dataset.status;
       setTarget(null);
+      ghost = null;
       // The click that follows a drag must not open the task.
       const swallow = (click) => click.stopPropagation();
       window.addEventListener('click', swallow, { capture: true, once: true });
@@ -83,9 +129,27 @@ function enableDrag(card, taskId, onDrop) {
       if (end.type === 'pointerup' && status) onDrop(taskId, status);
     };
 
+    function onMove(move) {
+      x = move.clientX;
+      y = move.clientY;
+      if (ghost) {
+        place();
+        return;
+      }
+      const moved = Math.hypot(x - startX, y - startY);
+      if (isTouch) {
+        // Moving before the hold elapsed means the user is scrolling, not dragging.
+        if (moved > TOUCH_SLOP_PX) finish({ type: 'pointercancel' });
+      } else if (moved >= MOUSE_SLOP_PX) {
+        start();
+      }
+    }
+
     window.addEventListener('pointermove', onMove);
-    window.addEventListener('pointerup', onEnd);
-    window.addEventListener('pointercancel', onEnd);
+    window.addEventListener('pointerup', finish);
+    window.addEventListener('pointercancel', finish);
+    window.addEventListener('touchmove', blockScroll, { passive: false });
+    if (isTouch) holdTimer = window.setTimeout(start, TOUCH_HOLD_MS);
   });
 }
 
@@ -199,7 +263,7 @@ export function renderTaskDetail(container, task, contactsById, handlers) {
     }))
     : el('p', { className: 'detail-none', text: 'No subtasks' }));
 
-  // Keyboard/touch alternative to drag & drop (HTML5 drag events do not fire on touch).
+  // Keyboard-accessible alternative to drag & drop.
   const select = el('select', { attrs: { id: 'detail-status' } }, COLUMNS.map(({ status, title }) => {
     const option = el('option', { text: title, attrs: { value: status } });
     option.selected = status === task.status;

@@ -1,6 +1,40 @@
 /* --- Board page --- */
+/* The page itself never scrolls: heading + search stay put, only the tasks scroll
+   (inside .board-columns on phones, inside each column on desktop). Scrollbars are hidden. */
+.shell--board {
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.shell--board .shell-body {
+  min-height: 0;
+}
+
 .board-content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
   max-width: none;
+  padding-bottom: 0;
+  overflow: hidden;
+}
+
+.board-columns,
+.column-list,
+.task-dialog,
+.task-form-dialog {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.board-columns::-webkit-scrollbar,
+.column-list::-webkit-scrollbar,
+.task-dialog::-webkit-scrollbar,
+.task-form-dialog::-webkit-scrollbar {
+  display: none;
 }
 
 .board-heading {
@@ -81,14 +115,45 @@
 /* --- Columns: stacked on mobile, four across from 48rem --- */
 .board-columns {
   display: grid;
-  grid-template-columns: 1fr;
+  flex: 1;
+  min-height: 0;
+  /* minmax(0, ...) so a wide row of cards can not stretch the page sideways. */
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-4);
+  align-content: start;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  /* Room so the last column can scroll clear of the bottom navigation. */
+  padding-bottom: 6rem;
 }
 
 @media (min-width: 48rem) {
+  .board-content {
+    padding-bottom: var(--space-5);
+  }
+
   .board-columns {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: minmax(0, 1fr);
+    align-content: stretch;
     gap: var(--space-3);
+    overflow: hidden;
+    padding-bottom: 0;
+  }
+
+  .column {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .board-columns .column-list {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    /* Keeps card shadows and the drop outline from being clipped by the scroll area. */
+    padding: var(--space-1);
   }
 }
 
@@ -153,6 +218,7 @@
 }
 
 .column {
+  min-width: 0;
   border-radius: var(--radius-md);
 }
 
@@ -182,6 +248,7 @@
 .card {
   user-select: none;
   -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .card.is-dragging {
@@ -519,4 +586,92 @@
   position: absolute;
   top: var(--space-3);
   right: var(--space-3);
+}
+
+/* --- Mobile layout (Figma "Board mobile"): heading + square add button, full-width search,
+   and every column shows its cards in a horizontally scrolling row. --- */
+@media (max-width: 47.99rem) {
+  .board-heading {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .board-heading h1 {
+    font-size: 3rem;
+    line-height: 1.1;
+  }
+
+  .column-header h2 {
+    font-size: 1.4rem;
+  }
+
+  .board-search::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 2.75rem;
+    height: 1.5rem;
+    border-left: 1px solid var(--color-text);
+    transform: translateY(-50%);
+  }
+
+  .board-tools {
+    display: contents;
+  }
+
+  .board-add {
+    grid-column: 2;
+    grid-row: 1;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Label stays available to assistive tech; only the "+" is shown. */
+  .board-add > span:first-child {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  .board-add-plus {
+    font-size: 1.75rem;
+  }
+
+  .board-search {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    max-width: none;
+  }
+
+  .board-search input {
+    padding-block: 0.8rem;
+  }
+
+  .board-columns .column-list {
+    flex-direction: row;
+    align-items: flex-start;
+    min-height: 0;
+    /* Padding keeps the card shadows unclipped; the negative margin keeps cards aligned with the headings. */
+    margin-inline: calc(-1 * var(--space-1));
+    padding: var(--space-1);
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+  }
+
+  .column-list > .card {
+    flex: 0 0 min(13.5rem, 70vw);
+    scroll-snap-align: start;
+  }
+
+  .column-empty {
+    flex: 1 0 100%;
+  }
 }
