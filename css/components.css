@@ -452,6 +452,14 @@
   grid-column: span 3;
   flex-direction: row;
   gap: var(--space-3);
+  min-height: 110px;
+}
+
+@media (min-width: 32rem) {
+  .tile--half {
+    min-height: 0;
+    height: 168px;
+  }
 }
 
 .tile--urgent {
@@ -459,10 +467,27 @@
   flex-direction: row;
   justify-content: space-around;
   gap: var(--space-3);
+  min-height: 110px;
 }
+
+@media (min-width: 32rem) {
+  .tile--urgent {
+    min-height: 0;
+    height: 168px;
+  }
+}
+
 
 .tile--count {
   grid-column: span 2;
+  min-height: 110px;
+}
+
+@media (min-width: 32rem) {
+  .tile--count {
+    min-height: 0;
+    height: 168px;
+  }
 }
 
 .tile-group {
