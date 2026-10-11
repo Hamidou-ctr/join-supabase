@@ -4,6 +4,7 @@ import { supabase } from './supabase-client.js';
 // (no "user not found" / "email already registered" / stack traces).
 const LOGIN_ERROR = 'Email or password is incorrect.';
 const SIGNUP_ERROR = 'Registration failed. Please check your details and try again.';
+const SIGNUP_EMAIL_INVALID_ERROR = 'Please use a valid email address.';
 const RATE_LIMIT_ERROR = 'Too many attempts. Please try again later.';
 const NETWORK_ERROR = 'Connection failed. Please try again.';
 const GUEST_LOGIN_ERROR = 'Guest login failed. Please try again.';
@@ -22,7 +23,12 @@ export async function signUp(email, password, name) {
     password,
     options: { data: { name } },
   });
-  if (error) return { ok: false, message: mapAuthError(error, SIGNUP_ERROR) };
+  if (error) {
+    // Safe to be specific: this code is returned for any undeliverable address and says nothing
+    // about whether an account exists, so it does not enable user enumeration.
+    if (error.code === 'email_address_invalid') return { ok: false, message: SIGNUP_EMAIL_INVALID_ERROR };
+    return { ok: false, message: mapAuthError(error, SIGNUP_ERROR) };
+  }
   return { ok: true };
 }
 
